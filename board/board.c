@@ -15,16 +15,16 @@
     limitations under the License.
 */
 
+#include <string.h>
+
 #include "ch.h"
 #include "hal.h"
-
-#include <string.h>
 /* ============ Private Defines ===================== */
 
 // clang-format off
 /* ============ Function Prototypes ================== */
 #define PBIT(PORT, LINE) ((PAL_PORT(LINE) == PORT) ? (1 << PAL_PAD(LINE)) : 0)
-#define P2BVAL(PORT, LINE, VAL) ((PAL_PORT(LINE) == PORT) ? (VAL << (PAL_PAD(LINE) << 1)) : 0)
+#define P2BVAL(PORT, LINE, VAL) (uint16_t)((PAL_PORT(LINE) == PORT) ? (VAL << (PAL_PAD(LINE) << 1)) : 0)
 #define PAFIO_L(PORT, LINE, AF) (((PAL_PORT(LINE) == PORT) && (PAL_PAD(LINE) < 8)) ? (AF << (PAL_PAD(LINE) << 2)) : 0)
 #define PAFIO_H(PORT, LINE, AF) (((PAL_PORT(LINE) == PORT) && (PAL_PAD(LINE) >= 8)) ? (AF << ((PAL_PAD(LINE) - 8) << 2)) : 0)
 #define PAFIO(PORT, N, LINE, AF) ((N) ? PAFIO_H(PORT, LINE, AF) : PAFIO_L(PORT, LINE, AF))
